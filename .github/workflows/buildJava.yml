@@ -1,0 +1,23 @@
+name: Java CI with Maven - Test and package
+on:
+  pull_request:
+    branches:
+      - main  # Le workflow se déclenche lors d'une PR vers la branche main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Exécution sur la dernière version d'Ubuntu
+
+    steps:
+      - name: Checkout repository  # Vérifier le dépôt courant
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21 (Corretto)  # Configurer Java 21 avec la distribution Corretto
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'  # Version de Java
+          distribution: 'corretto'  # Distribution Corretto
+
+      - name: Build with Maven  # Construire le projet avec Maven
+        run: mvn -B package  # La commande -B exécute le build en mode batch, et "package" construit le package
+
