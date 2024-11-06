@@ -19,5 +19,5 @@ jobs:
           distribution: 'corretto'  # Distribution Corretto
 
       - name: Build with Maven  # Construire le projet avec Maven
-        run: mvn -B package  # La commande -B exécute le build en mode batch, et "package" construit le package
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$(echo ${{ github.repository }} | sed 's-/-_-')
 
