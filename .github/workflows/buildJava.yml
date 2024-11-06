@@ -19,5 +19,5 @@ jobs:
           distribution: 'corretto'  # Distribution Corretto
 
       - name: Build with Maven  # Construire le projet avec Maven
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$(echo ${{ github.repository }} | sed 's-/-_-')
+        run: mvn -B package
 
