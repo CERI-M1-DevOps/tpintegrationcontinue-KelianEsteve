@@ -1,6 +1,5 @@
-name: Java CI with Maven - Test and package
+name: Java CI with Maven - Test, package, and Sonar analysis
 
-# Ce workflow se déclenche lorsqu'une pull request est ouverte vers la branche main
 on:
   pull_request:
     branches:
@@ -8,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build and Test Java Project
+    name: Build, Test, and Sonar Analysis
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: dev  # Utiliser le contenu de la branche dev pour le workflow
+          ref: dev  # Utiliser le contenu de la branche dev
 
       # Étape 2 : Setup Java - Configure Java avec la version 21 et la distribution corretto
       - name: Setup Java
@@ -27,4 +26,5 @@ jobs:
 
       # Étape 3 : Build avec Maven - Construction et test du projet avec Maven
       - name: Build and Test with Maven
-        run: mvn -B package
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$(echo ${{ github.repository }} | sed 's-/-_-') -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
