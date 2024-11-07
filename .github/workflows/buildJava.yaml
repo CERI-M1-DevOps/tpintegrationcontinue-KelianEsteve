@@ -1,0 +1,30 @@
+name: Java CI with Maven - Test, package, and Sonar analysis
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build, Test, and Sonar Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Checkout - Se place dans le dépôt courant
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: dev  # Utiliser le contenu de la branche dev
+
+      # Étape 2 : Setup Java - Configure Java avec la version 21 et la distribution corretto
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      # Étape 3 : Build avec Maven - Construction et test du projet avec Maven
+      - name: Build and Test with Maven
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$(echo ${{ github.repository }} | sed 's-/-_-') -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
