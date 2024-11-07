@@ -15,7 +15,8 @@ jobs:
       # Étape 1 : Checkout - Se place dans le dépôt courant
       - name: Checkout repository
         uses: actions/checkout@v4
-
+	with:
+    	  ref: dev
       # Étape 2 : Setup Java - Configure Java avec la version 21 et la distribution corretto
       - name: Setup Java
         uses: actions/setup-java@v4
