@@ -2,7 +2,7 @@ package liste;
 
 public class ListeSimple {
     private long size;
-    Noeud tete;
+    private Noeud tete;
 
     public long getSize() {
         return size;
@@ -13,7 +13,7 @@ public class ListeSimple {
         size++;
     }
 
-    public void modifiePremier(Object element, Object nouvelleValeur) {
+    public void modifiePremier(int element, int nouvelleValeur) {
         Noeud courant = tete;
         while (courant != null && courant.getElement() != element)
             courant = courant.getSuivant();
@@ -21,7 +21,7 @@ public class ListeSimple {
             courant.setElement(nouvelleValeur);
     }
 
-    public void modifieTous(Object element, Object nouvelleValeur) {
+    public void modifieTous(int element, int nouvelleValeur) {
         Noeud courant = tete;
         while (courant != null) {
             if (courant.getElement() == element)
@@ -43,7 +43,7 @@ public class ListeSimple {
         return sb.toString();
     }
 
-    public void supprimePremier(Object element) {
+    public void supprimePremier(int element) {
         if (tete != null) {
             if (tete.getElement() == element) {
                 tete = tete.getSuivant();
@@ -67,7 +67,7 @@ public class ListeSimple {
        tete = supprimeTousRecurs(element, tete);
     }
 
-    public Noeud supprimeTousRecurs(Object element, Noeud tete) {
+    private Noeud supprimeTousRecurs(int element, Noeud tete) {
         if (tete != null) {
             Noeud suiteListe = supprimeTousRecurs(element, tete.getSuivant());
             if (tete.getElement() == element) {
@@ -107,10 +107,9 @@ public class ListeSimple {
     }
 
     public Noeud getPrecedent(Noeud r) {
-    // la liste n'est pas vide puisqu'on transmet un Node de la liste et le Node existe obligatoirement
         Noeud precedent = tete;
-        Noeud courant = precedent.getSuivant();
-        while (courant != r) {
+        Noeud courant = tete.getSuivant();
+        while (courant != null && courant != r) {
             precedent = courant;
             courant = courant.getSuivant();
         }
@@ -120,25 +119,33 @@ public class ListeSimple {
     public void echanger(Noeud r1, Noeud r2) {
         if (r1 == r2)
             return;
-        Noeud precedentR1, precedentR2;
-        if (r1 != tete && r2 != tete) {
+
+        Noeud precedentR1 = null, precedentR2 = null;
+
+        // Check if either node is the head
+        if (r1 != tete) {
             precedentR1 = getPrecedent(r1);
+        }
+        if (r2 != tete) {
             precedentR2 = getPrecedent(r2);
+        }
+
+        // Swap the nodes
+        if (precedentR1 != null) {
             precedentR1.setSuivant(r2);
-            precedentR2.setSuivant(r1);
-        } else if (r1 == tete) {
-            precedentR2 = getPrecedent(r2);
-            precedentR2.setSuivant(tete);
+        } else {
             tete = r2;
         }
-        else if (r2 == tete) {
-            precedentR1 = getPrecedent(r1);
-            precedentR1.setSuivant(tete);
+
+        if (precedentR2 != null) {
+            precedentR2.setSuivant(r1);
+        } else {
             tete = r1;
         }
+
+        // Swap the suivant pointers
         Noeud temp = r2.getSuivant();
         r2.setSuivant(r1.getSuivant());
         r1.setSuivant(temp);
     }
-
 }
