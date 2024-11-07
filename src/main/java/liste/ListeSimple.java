@@ -7,7 +7,10 @@ public class ListeSimple {
     public long getSize() {
         return size;
     }
-
+    /**
+     * Ajoute un élément à la liste.
+     * @param element L'élément à ajouter dans la liste.
+     */
     public void ajout(int element) {
         tete = new Noeud(element, tete);
         size++;
